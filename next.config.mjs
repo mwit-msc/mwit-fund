@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+
 const nextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
@@ -12,6 +17,10 @@ const nextConfig = {
 
   // Server external packages (moved from experimental)
   serverExternalPackages: ['pg', '@aws-sdk/client-s3'],
+
+  turbopack: {
+    root: projectRoot,
+  },
   
   // Docker-specific configuration
   ... process.env.USEDOCKER === 'true' ? {

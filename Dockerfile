@@ -9,12 +9,12 @@ FROM base AS deps
 
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json bun.lockb* yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+# Install dependencies from the Bun lockfile
+COPY package.json bun.lock ./
 # Copy prisma schema for prisma generate in postinstall
 COPY prisma ./prisma
 
-RUN bun install
+RUN bun install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
